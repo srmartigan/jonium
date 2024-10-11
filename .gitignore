@@ -17,10 +17,10 @@ Thumbs.db
 *.swp
 
 # Directorio de cachés
-/cache/
+/storage/cache/
 
 # Archivos de configuración sensibles
-.env
+/.env
 
 # Node modules
-node_modules/
+/node_modules/
