@@ -1,0 +1,26 @@
+# Sistemas operativos
+.DS_Store
+Thumbs.db
+
+# Archivos de log
+*.log
+
+# Entorno de desarrollo de IDEs
+.vscode/
+.idea/
+
+# Dependencias
+/vendor/
+
+# Archivos temporales
+*.tmp
+*.swp
+
+# Directorio de cachés
+/cache/
+
+# Archivos de configuración sensibles
+.env
+
+# Node modules
+node_modules/
