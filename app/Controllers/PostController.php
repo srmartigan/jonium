@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 
 use App\App;
+use App\Models\User;
 
 class PostController
 {
@@ -17,21 +18,26 @@ class PostController
 
     public function show($id)
     {
+       $user = User::getId($id);
+
         $post = true;
         if ($post) {
-            return $this->app->render('home',
+            $this->app->render('home',
                 [
                     'title' => 'Hola mundo jonium',
-                    'id' => $id,
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'password' => $user->password,
                     'slug' => 'hola-mundo-jonium',
                 ]);
         } else {
-            return $this->app->render('errors.404');
+            $this->app->render('errors.404');
         }
     }
 
     public function create()
     {
-        return $this->app->render('post.create');
+        $this->app->render('post.create');
     }
 }
