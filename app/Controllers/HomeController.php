@@ -17,7 +17,6 @@ class HomeController
 
     public function about()
     {
-        nhjkh
         echo 'Pagina de Información sobre Jonium';
     }
 
