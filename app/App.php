@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Core\Routing\Route;
 use Illuminate\Container\Container;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Filesystem\Filesystem;
@@ -55,19 +56,22 @@ class App
         $requestUri = trim($server['REQUEST_URI'], '/');
         $requestMethod = $server['REQUEST_METHOD'];
 
-        $routes = require_once ROOT_PATH . '/routes/web.php';
+        $routes = Route::getRoutes();
 
+        //dd($routes);
         $found = false;
 
-        foreach ($routes as $route => $action) {
-            $routePattern = preg_replace('#\{([a-zA-Z0-9_]+)\?\}#', '([a-zA-Z0-9_]+)?', $route);
+        foreach ($routes as $route) {
+
+            $routePattern = preg_replace('#\{([a-zA-Z0-9_]+)\?\}#', '([a-zA-Z0-9_]+)?', $route->uri());
             $routePattern = preg_replace('#\{([a-zA-Z0-9_]+)\}#', '([a-zA-Z0-9_]+)', $routePattern);
-            $routePattern = '#^' . $routePattern . '$#';
+            $routePattern = $this->cambiarPrimeraBarra($routePattern);
+            $routePattern = '#^' .$routePattern . '$#';
 
             if (preg_match($routePattern, $requestUri, $matches)) {
                 array_shift($matches);
 
-                [$controller, $method] = $action;
+                [$controller, $method] = $route->action();
 
                 $controllerInstance = new $controller($this);
                 if (method_exists($controllerInstance, $method)) {
@@ -90,5 +94,12 @@ class App
     public function render($view, $data = [])
     {
         echo $this->blade->render($view, $data);
+    }
+
+    function cambiarPrimeraBarra($cadena) {
+        if (substr($cadena, 0, 1) === '/') {
+            return substr($cadena, 1);
+        }
+        return $cadena;
     }
 }

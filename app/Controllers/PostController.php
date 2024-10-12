@@ -16,7 +16,7 @@ class PostController
         $this->app = new App($config);
     }
 
-    public function show($id)
+    public function show($id, $slug = null)
     {
        $user = User::getId($id);
 
@@ -29,7 +29,7 @@ class PostController
                     'name' => $user->name,
                     'email' => $user->email,
                     'password' => $user->password,
-                    'slug' => 'hola-mundo-jonium',
+                    'slug' => is_null($slug) ? 'jonium el mejora framework' : $slug,
                 ]);
         } else {
             $this->app->render('errors.404');
