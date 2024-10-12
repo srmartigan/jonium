@@ -77,7 +77,7 @@ class App
                 if (method_exists($controllerInstance, $method)) {
                     call_user_func_array([$controllerInstance, $method], $matches);
                 } else {
-                    echo "Método no encontrado.";
+                   throw new \Exception("Metodo no encontrado");
                 }
 
                 $found = true;

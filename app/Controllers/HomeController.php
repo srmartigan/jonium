@@ -2,19 +2,20 @@
 
 namespace App\Controllers;
 
-class HomeController
-{
-    protected $app;
+use Core\Controller\Controller;
 
-    public function __construct($app)
-    {
-        $this->app = $app;
-    }
+class HomeController extends Controller
+{
+
     public function index()
     {
         echo'Bienvenido a Jonium ';
     }
 
+    public function home()
+    {
+        $this->View('home', ['title' => 'Home']);
+    }
     public function about()
     {
         echo 'Pagina de Información sobre Jonium';

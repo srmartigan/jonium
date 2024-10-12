@@ -2,19 +2,11 @@
 
 namespace App\Controllers;
 
-
-use App\App;
 use App\Models\User;
+use Core\Controller\Controller;
 
-class PostController
+class PostController extends Controller
 {
-    protected $app;
-
-    public function __construct()
-    {
-        $config = require ROOT_PATH . '/config/config.php';
-        $this->app = new App($config);
-    }
 
     public function show($id, $slug = null)
     {
@@ -22,9 +14,9 @@ class PostController
 
         $post = true;
         if ($post) {
-            $this->app->render('home',
+            $this->View('post',
                 [
-                    'title' => 'Hola mundo jonium',
+                    'title' => 'POST',
                     'id' => $user->id,
                     'name' => $user->name,
                     'email' => $user->email,
@@ -32,12 +24,12 @@ class PostController
                     'slug' => is_null($slug) ? 'jonium el mejora framework' : $slug,
                 ]);
         } else {
-            $this->app->render('errors.404');
+            $this->View('errors.404');
         }
     }
 
     public function create()
     {
-        $this->app->render('post.create');
+        $this->View('post.create');
     }
 }

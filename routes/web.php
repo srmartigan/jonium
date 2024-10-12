@@ -13,6 +13,7 @@ use Core\Routing\Route;
 
 
 Route::get('/', [HomeController::class, 'index']);
+Route::get('/home', [HomeController::class, 'home']);
 Route::get('/about', [HomeController::class, 'about']);
 Route::get('/contact', [HomeController::class, 'contact']);
 Route::get('/post/{id}', [PostController::class, 'show']); //Ruta con un parámetro {id}

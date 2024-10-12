@@ -7,6 +7,9 @@
 </head>
 <body>
 <h1>{{ $title }}</h1>
-
+<p>Este es el id: {{ $id }} y este es el Slug: {{ $slug }}</p>
+<h4>El nombre es :{{$name}}</h4>
+<h4>El email es :{{$email}}</h4>
+<h4>El password es :{{$password}}</h4>
 </body>
 </html><?php
