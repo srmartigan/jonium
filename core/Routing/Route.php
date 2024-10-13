@@ -70,8 +70,8 @@ class Route
 
         foreach (self::$url[$requestMethod] as  $uri => $controller) {
 
-            $routePattern = preg_replace('#\{([a-zA-Z0-9_]+)\?\}#', '([a-zA-Z0-9_]+)?', $uri);
-            $routePattern = preg_replace('#\{([a-zA-Z0-9_]+)\}#', '([a-zA-Z0-9_]+)', $routePattern);
+            $routePattern = preg_replace('#\{([a-zA-Z0-9_]+)\?}#', '([a-zA-Z0-9_]+)?', $uri);
+            $routePattern = preg_replace('#\{([a-zA-Z0-9_]+)}#', '([a-zA-Z0-9_]+)', $routePattern);
             $routePattern = self::cambiarPrimeraBarra($routePattern);
             $routePattern = '#^' .$routePattern . '$#';
 
