@@ -7,10 +7,7 @@
   },
   "require": {
     "jenssegers/blade": "^v1.4.0",
-    "illuminate/view": "^8.0",
-    "illuminate/events": "^8.0",
-    "illuminate/container": "^8.0",
-    "illuminate/filesystem": "^8.0"
+    "illuminate/container": "^8.0"
   },
   "require-dev": {
     "spatie/ignition": "^1.15"

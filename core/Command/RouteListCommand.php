@@ -2,7 +2,6 @@
 
 namespace Core\Command;
 
-use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -46,24 +45,6 @@ class RouteListCommand extends Command
         $table->render();
 
         return Command::SUCCESS;
-//        // Encabezado de la tabla
-//        $output->writeln("Method |      URI      | Name | Action");
-//        $output->writeln(str_repeat('-', 60));
-//
-//        foreach ($routes as $key => $route) {
-//            foreach ($route as $uri => $controller)
-//            {
-//
-//                [$class, $method] = $controller;
-//                $methodHtml = $key;
-//                $uriConsole = $uri;
-//                $name = $class;
-//                $action = $method;
-//
-//                $output->writeln("{$methodHtml}    | {$uriConsole}           | {$name} | {$action}");
-//            }
-//        }
-//
-//        return Command::SUCCESS;
+
     }
 }

@@ -13,11 +13,8 @@ define('ROOT_PATH', realpath(dirname(__DIR__)));
 // Autocarga de clases de tu aplicación
 require_once ROOT_PATH . '/vendor/autoload.php';
 
-// Carga del archivo de configuración
-$config = require_once ROOT_PATH . '/config/config.php';
-
 // Inicialización de la aplicación
-$app = new App($config);
+$app = new App();
 
 // Maneja la solicitud actual
 $app->init($_SERVER);
