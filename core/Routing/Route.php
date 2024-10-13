@@ -100,6 +100,9 @@ class Route
 
     public static function getRoutes(): array
     {
+        if(empty(self::$url)){
+            self::loadRoutes();
+        }
        return self::$url;
     }
 
