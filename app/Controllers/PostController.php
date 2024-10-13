@@ -32,4 +32,6 @@ class PostController extends Controller
     {
         $this->View('post.create');
     }
+
+    public function store(){}
 }

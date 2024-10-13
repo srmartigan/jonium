@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Core\Exceptions\RouterException;
 use Core\Routing\Route;
 use Illuminate\Container\Container;
 use Illuminate\Events\Dispatcher;
@@ -30,6 +31,8 @@ class App
         $container->singleton('events', function ($container) {
             return new Dispatcher($container);
         });
+        //Cargar Rutas del fichero routes/web.php
+        Route::loadRoutes();
 
         // Define las rutas a las vistas y la caché de Blade
         $views = ROOT_PATH . '/resources/views';
@@ -51,44 +54,19 @@ class App
 
     }
 
+    /**
+     * @throws RouterException
+     */
     public function init($server)
     {
-        $requestUri = trim($server['REQUEST_URI'], '/');
+        $requestUri    = trim($server['REQUEST_URI'], '/');
         $requestMethod = $server['REQUEST_METHOD'];
 
-        $routes = Route::getRoutes();
+        Route::GetRouteInfo($requestUri, $requestMethod);
 
-        //dd($routes);
-        $found = false;
 
-        foreach ($routes as $route) {
 
-            $routePattern = preg_replace('#\{([a-zA-Z0-9_]+)\?\}#', '([a-zA-Z0-9_]+)?', $route->uri());
-            $routePattern = preg_replace('#\{([a-zA-Z0-9_]+)\}#', '([a-zA-Z0-9_]+)', $routePattern);
-            $routePattern = $this->cambiarPrimeraBarra($routePattern);
-            $routePattern = '#^' .$routePattern . '$#';
 
-            if (preg_match($routePattern, $requestUri, $matches)) {
-                array_shift($matches);
-
-                [$controller, $method] = $route->action();
-
-                $controllerInstance = new $controller($this);
-                if (method_exists($controllerInstance, $method)) {
-                    call_user_func_array([$controllerInstance, $method], $matches);
-                } else {
-                   throw new \Exception("Metodo no encontrado");
-                }
-
-                $found = true;
-                break;
-            }
-        }
-
-        if (!$found) {
-            header("HTTP/1.0 404 Not Found");
-            echo "404 - Página no encontrada.";
-        }
     }
 
     public function render($view, $data = [])
@@ -96,10 +74,5 @@ class App
         echo $this->blade->render($view, $data);
     }
 
-    function cambiarPrimeraBarra($cadena) {
-        if (substr($cadena, 0, 1) === '/') {
-            return substr($cadena, 1);
-        }
-        return $cadena;
-    }
+
 }

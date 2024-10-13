@@ -8,7 +8,7 @@ class Controller
 {
     protected $app;
 
-    public function __construct($app)
+    public function __construct()
     {
         $config = require ROOT_PATH . '/config/config.php';
         $this->app = new App($config);

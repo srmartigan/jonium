@@ -5,6 +5,7 @@ namespace Core\Command;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Core\Routing\Route;
 
 class RouteListCommand extends Command
 {
@@ -22,17 +23,17 @@ class RouteListCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         // Obtener todas las rutas registradas
-        $routes = require_once __DIR__ . '/../../routes/web.php';
+        $routes = Route::getRoutes();
 
         // Encabezado de la tabla
         $output->writeln("Method | URI | Name | Action");
         $output->writeln(str_repeat('-', 60));
 
-        foreach ($routes as $route => $value) {
+        foreach ($routes as $route) {
 
-            [$controller, $show] = $value;
+            [$controller, $show] = $route->action();
             $method = 'GET'; //TODO: hay que añadir a las rutas el metodo y que salga en la consola.
-            $uri = $route;
+            $uri = $route->uri();
             $name = $controller;
             $action = $show;
 
