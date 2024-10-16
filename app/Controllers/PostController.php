@@ -5,15 +5,22 @@ namespace App\Controllers;
 use App\Models\User;
 use Core\Controller\Controller;
 use Core\Http\Request;
+use Core\orm\DB;
 
 class PostController extends Controller
 {
 
     public function show(Request $request)
     {
-       $id = $request->query('id');
-       $slug = $request->query('slug') ?? null;
-       $user = User::getId($id);
+        $db = DB::getDB();
+        $sql = "SELECT * FROM users";
+        $result = $db->query($sql);
+        $user = $result->fetch();
+
+
+       $id = $user['id'] ?? null;
+       $slug = $user['email'] ?? null;
+
 
 
         $post = true;
@@ -21,10 +28,10 @@ class PostController extends Controller
             $this->View('post',
                 [
                     'title' => 'POST',
-                    'id' => $user->id,
-                    'name' => $user->name,
-                    'email' => $user->email,
-                    'password' => $user->password,
+                    'id' => $user['id'] ?? null,
+                    'name' => 'name',
+                    'email' => $user['email'] ?? null,
+                    'password' => $user['password'] ?? null,
                     'slug' => is_null($slug) ? 'jonium el mejora framework' : $slug,
                 ]);
         } else {

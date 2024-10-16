@@ -11,7 +11,8 @@
   },
   "require": {
     "jenssegers/blade": "^v1.4.0",
-    "illuminate/container": "^8.0"
+    "illuminate/container": "^8.0",
+    "ext-pdo": "*"
   },
   "require-dev": {
     "spatie/ignition": "^1.15",

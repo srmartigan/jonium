@@ -5,6 +5,7 @@ namespace App;
 use Core\Controller\Controller;
 use Core\Exceptions\RouterException;
 use Core\Http\Request;
+use Core\orm\DB;
 use Core\Routing\Route;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Container\BindingResolutionException;
@@ -29,7 +30,8 @@ class App
         // Incluye el archivo de configuración
         $configPath = ROOT_PATH . '\config\config.php';
         $this->config = require $configPath;
-
+        //Iniciar Base de Datos
+        DB::InitDatabase($this->config);
 
         // Inicializa el contenedor de Laravel
         if (!self::$container) {
@@ -66,6 +68,11 @@ class App
 
     }
 
+    public function getConfig()
+    {
+        return $this->config;
+    }
+
 
     /**
      * @throws RouterException
@@ -76,6 +83,7 @@ class App
         $requestMethod = $server['REQUEST_METHOD'];
 
         Route::GetRouteInfo($requestUri, $requestMethod);
+
 
     }
 
