@@ -14,7 +14,7 @@ class HomeController extends Controller
 
     public function home()
     {
-        $this->View('home', ['title' => 'Home']);
+        $this->View('home', ['title' => 'Home ']);
     }
     public function about()
     {

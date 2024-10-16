@@ -2,19 +2,27 @@
 
 namespace App;
 
+use Core\Controller\Controller;
 use Core\Exceptions\RouterException;
+use Core\Http\Request;
 use Core\Routing\Route;
 use Illuminate\Container\Container;
-// use Illuminate\Events\Dispatcher;
-// use Illuminate\Filesystem\Filesystem;
+use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Contracts\Container\CircularDependencyException;
 use Jenssegers\Blade\Blade;
 use Spatie\Ignition\Ignition;
 
 class App
 {
+    protected static $container;
     protected $config = [];
     protected $blade;
 
+
+    /**
+     * @throws CircularDependencyException
+     * @throws BindingResolutionException
+     */
     public function __construct()
     {
 
@@ -23,19 +31,16 @@ class App
         $this->config = require $configPath;
 
 
-        require_once ROOT_PATH . '/core/helpers.php';
-
         // Inicializa el contenedor de Laravel
-        $container = new Container();
+        if (!self::$container) {
+            self::$container = new Container;
+        }
+        self::$container->instance('app', $this);
+        self::$container->singleton(Request::class, function ($container, $params){
 
-//        // Registrar dependencias en el contenedor
-//        $container->singleton('files', function () {
-//            return new Filesystem();
-//        });
+            return new Request($params);
+        });
 
-//        $container->singleton('events', function ($container) {
-//            return new Dispatcher($container);
-//        });
 
         //Cargar Rutas del fichero routes/web.php
         Route::loadRoutes();
@@ -45,7 +50,7 @@ class App
         $cache = ROOT_PATH . '/storage/cache';
 
         // Inicializa Blade
-        $this->blade = new Blade($views, $cache, $container);
+        $this->blade = new Blade($views, $cache, self::getContainer());
 
         // Configurar Ignition
 
@@ -60,6 +65,7 @@ class App
         }
 
     }
+
 
     /**
      * @throws RouterException
@@ -76,6 +82,11 @@ class App
     public function render($view, $data = [])
     {
         echo $this->blade->render($view, $data);
+    }
+
+    public static function getContainer(): Container
+    {
+        return self::$container;
     }
 
 

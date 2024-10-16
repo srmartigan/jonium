@@ -3,13 +3,19 @@
     "psr-4": {
       "App\\": "app/",
       "Core\\": "core/"
-    }
+    },
+    "files": [
+      "core/Helpers/app.php",
+      "core/Helpers/helpers.php"
+    ]
   },
   "require": {
     "jenssegers/blade": "^v1.4.0",
     "illuminate/container": "^8.0"
   },
   "require-dev": {
-    "spatie/ignition": "^1.15"
+    "spatie/ignition": "^1.15",
+    "phpunit/phpunit": "^9",
+    "mockery/mockery": "^1.6"
   }
 }

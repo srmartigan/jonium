@@ -8,11 +8,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Core\Routing\Route;
+use Illuminate\Container\Container;
+
 
 class RouteListCommand extends Command
 {
     // Nombre del comando
     protected static $defaultName = 'route:list';
+
 
     protected function configure()
     {

@@ -4,14 +4,16 @@ namespace Core\Controller;
 
 use App\App;
 
+
 class Controller
 {
     protected $app;
 
+
     public function __construct()
     {
-        $config = require ROOT_PATH . '/config/config.php';
-        $this->app = new App($config);
+        $this->app = new App();
+
     }
 
     protected function View(string $view, array $data = []): void

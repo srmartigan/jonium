@@ -4,6 +4,8 @@
 
 namespace Core\Routing;
 use Core\Exceptions\RouterException;
+use Core\Http\Request;
+use Illuminate\Contracts\Container\BindingResolutionException;
 
 enum HttpMethod: string
 {
@@ -63,6 +65,14 @@ class Route
         self::$url[$methodHtml][$uri] = [$class, $method];
     }
 
+    /**
+     * Obtiene información de la ruta basada en la URI y el método de solicitud proporcionados.
+     *
+     * @param string $requestUri La URI de la solicitud a coincidir con las rutas registradas.
+     * @param mixed $requestMethod El método de solicitud (GET, POST, etc.) a coincidir con las rutas registradas.
+     * @return void
+     * @throws RouterException Si el método del controlador en la ruta coincidente no se encuentra.
+     */
     public static function GetRouteInfo(string $requestUri, mixed $requestMethod)
     {
 
@@ -80,12 +90,27 @@ class Route
 
                 [$class, $method] = $controller;
 
-                $controllerInstance = new $class() ;
-                if (method_exists($controllerInstance, $method)) {
-                    call_user_func_array([$controllerInstance, $method], $matches);
-                } else {
-                    throw new RouterException('Metodo no encontrado');
+                preg_match_all('/\{(.*?)}/', $uri, $parameters);
+
+                $parameters = str_replace('?','',$parameters[1]);
+
+                /*
+               $parameters: Contiene los nombres de los parámetros definidos en la ruta, almacenados en un array.
+               $matches: Contiene los valores de los parámetros coincidentes obtenidos de la URI actual.
+               $newParameters: Array que se crea para asociar cada nombre de parámetro con su valor correspondiente,
+                               combinando los arrays $parameters y $matches. */
+                $newParameters = [];
+                for($i = 0; $i < count($parameters); $i++){
+                    $newParameters[$parameters[$i]] = $matches[$i];
                 }
+
+                $request = app()->make(Request::class,$newParameters);
+
+                // Resolver el controlador utilizando el container
+
+                $ctrl = app()->make($class);
+                $ctrl->$method($request);
+
 
                 $found = true;
                 break;
@@ -98,12 +123,20 @@ class Route
         }
     }
 
+    /**
+     * @throws RouterException
+     */
     public static function getRoutes(): array
     {
-        if(empty(self::$url)){
-            self::loadRoutes();
+        try {
+            if (empty(self::$url)) {
+                self::loadRoutes();
+            }
+        }catch (\Throwable $th){
+            throw new RouterException("No se pudo cargar las rutas");
         }
-       return self::$url;
+
+        return self::$url;
     }
 
     /**

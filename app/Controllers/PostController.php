@@ -4,13 +4,17 @@ namespace App\Controllers;
 
 use App\Models\User;
 use Core\Controller\Controller;
+use Core\Http\Request;
 
 class PostController extends Controller
 {
 
-    public function show($id, $slug = null)
+    public function show(Request $request)
     {
+       $id = $request->query('id');
+       $slug = $request->query('slug') ?? null;
        $user = User::getId($id);
+
 
         $post = true;
         if ($post) {
