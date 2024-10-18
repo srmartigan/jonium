@@ -11,6 +11,7 @@ use Illuminate\Container\Container;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Container\CircularDependencyException;
 use Jenssegers\Blade\Blade;
+use Migrations\UserMigrations;
 use Spatie\Ignition\Ignition;
 
 class App
@@ -32,6 +33,8 @@ class App
         $this->config = require $configPath;
         //Iniciar Base de Datos
         DB::InitDatabase($this->config);
+
+        UserMigrations::up;
 
         // Inicializa el contenedor de Laravel
         if (!self::$container) {

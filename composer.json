@@ -2,7 +2,8 @@
   "autoload": {
     "psr-4": {
       "App\\": "app/",
-      "Core\\": "core/"
+      "Core\\": "core/",
+      "Migrations\\": "Migrations/"
     },
     "files": [
       "core/Helpers/app.php",
