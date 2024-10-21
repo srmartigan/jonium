@@ -22,7 +22,7 @@ class UserMigrations
 
     function down()
     {
-        DB::runQuery('DROP TABLE users');
+        DB::runQuery('DROP TABLE users ');
     }
 
 }
