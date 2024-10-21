@@ -34,7 +34,7 @@ class App
         //Iniciar Base de Datos
         DB::InitDatabase($this->config);
 
-        UserMigrations::up;
+
 
         // Inicializa el contenedor de Laravel
         if (!self::$container) {

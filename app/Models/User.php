@@ -13,12 +13,14 @@ class User extends ORM
     public $email;
     public $password;
 
-    private function __construct(array $data)
+
+    protected function __construct(array $data)
     {
         $this->id = $data['id'];
         $this->name = $data['name'];
         $this->email = $data['email'];
         $this->password = $data['password'];
+
     }
 
     public static function getId($id = null) : User|null
